@@ -1,14 +1,8 @@
-const projects = [
-    {
-        title: 'Rage Script Commands',
-        description: 'A Reference for script commands across Rockstar RAGE titles.',
-        link: 'https://rsc.veyvy.space/',
-        category: 'Web',
-        image: '/images/rsc.png',
-    },
-];
+import { getProjects } from '@/lib/api';
 
-export function Services() {
+export async function Services() {
+    const projects = await getProjects();
+
     return (
         <div className="services">
             <div className="services-header">
@@ -22,36 +16,44 @@ export function Services() {
                     Check out my various projects.
                 </p>
             </div>
-
             <div className="services-grid">
                 {projects.map((project, index) => (
                     <article
                         className="service-card"
                         key={project.title}
                         style={{
-                            backgroundImage: `url(${project.image})`,
+                            backgroundImage: project.image
+                                ? `url("${project.image}")`
+                                : undefined,
                         }}
                     >
                         <div className="service-overlay" />
 
                         <div className="service-card-content">
                             <div className="service-card-top">
-                                <span>0{index + 1}</span>
-                                <span>{project.category}</span>
+                                <span>
+                                    {String(index + 1).padStart(2, '0')}
+                                </span>
+
+                                <span>
+                                    {project.category}
+                                </span>
                             </div>
 
                             <div className="service-card-info">
-                                <h3>{project.title}</h3>
-
-                                <p>{project.description}</p>
-
+                                <h3>
+                                    {project.title}
+                                </h3>
+                                <p>
+                                    {project.description}
+                                </p>
                                 <a
                                     href={project.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="service-link"
                                 >
-                                    View projet
+                                    View project
                                     <span>↗</span>
                                 </a>
                             </div>
